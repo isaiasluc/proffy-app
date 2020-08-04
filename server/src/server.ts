@@ -1,18 +1,11 @@
 import express from 'express';
+import routes from './routes';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-
-app.post('/users', (req, res) => {
-    console.log(req.body);
-    
-    const users = [
-        { name: 'Isaias', idade: 26, estadocivil: 'Solteiro'},
-        { name: 'Brenno', idade: 24, estadocivil: 'Namorando'}
-    ];
-
-    return res.json(users);
-})
+app.use(routes);
 
 app.listen(3333);

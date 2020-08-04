@@ -12,7 +12,7 @@ export async function up (knex: Knex) {
             .onDelete('CASCADE');
 
         table.timestamp('created_at') //Ao clicar em entrar em contato, será anotado a hora que o usuário solicitou isso.
-            .defaultTo('now()')
+            .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
             .notNullable();
     });
 }
