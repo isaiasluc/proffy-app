@@ -3,36 +3,52 @@ import React from 'react';
 import './styles.css';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
+import api from '../../services/api';
 
-function TeacherItem() {
+export interface Teacher {
+    avatar: string;
+    bio: string;
+    cost: number;
+    id: number;
+    name: string;
+    subject: string;
+    whatsapp: string;
+}
+
+interface TeacherItemProps {
+    teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+    function createNewConnection() {
+        api.post('connections', {
+            user_id: teacher.id,
+        });
+    }
+
     return (
         <article className="teacher-item">
             <header>
-                <img src="https://avatars2.githubusercontent.com/u/9330569?s=460&u=7a1b45266fb8b2c8cb7207c324de2fa1b15362dd&v=4" alt="Github" />
+                <img src={teacher.avatar} alt="Github" />
                 <div>
-                    <strong>Isaias Lucena</strong>
-                    <span>Matemática</span>
+                    <strong>{teacher.name}</strong>
+                    <span>{teacher.subject}</span>
                 </div>
             </header>
 
             <p>
-                O Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão. O Lorem Ipsum tem vindo a ser o texto padrão usado por
-                estas indústrias desde o ano de 1500, quando uma misturou os caracteres de um texto para criar um espécime de livro.
-                <br /><br />
-                Este texto não só sobreviveu 5 séculos, mas também o salto para a tipografia electrónica, mantendo-se essencialmente inalterada. 
-                Foi popularizada nos anos 60 com a disponibilização das folhas de Letraset, que continham passagens com Lorem Ipsum, e mais recentemente 
-                com os programas de publicação como o Aldus PageMaker que incluem versões do Lorem Ipsum.
+                {teacher.bio}
             </p>
 
             <footer>
                 <p>
                     Preço/Hora
-                    <strong>R$ 80,00</strong>
+                    <strong>{teacher.cost}</strong>
                 </p>
-                <button type="button">
+                <a onClick={createNewConnection} href={`https://wa.me/${teacher.whatsapp}`}>
                     <img src={whatsappIcon} alt="Whatsapp" />
                     Entrar em contato
-                </button>
+                </a>
             </footer>
         </article>
     );
